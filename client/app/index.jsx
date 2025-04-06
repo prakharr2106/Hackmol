@@ -7,6 +7,7 @@ const index = () => {
       <Text>Let's Start</Text>
       <Text>Rajan Patel!</Text>
       <Text>Adity MArandi!</Text>
+      <Text>Nitesh Kumar</Text>
     </View>
   )
 }
