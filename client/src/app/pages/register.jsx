@@ -1,31 +1,42 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable, Alert } from 'react-native';
 import React, { useState } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { useRouter } from 'expo-router';
+import axios from '../../utils/axios.js'; // This is correct path
 
 const Register = () => {
   const [name, setName] = useState('');
-  const [contact, setContact] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleRegister = () => {
-    console.log('Registering:', { name, contact, password });
-    // Handle actual registration logic
-  };
+const handleRegister = async () => {
+  console.log("Register button clicked");
 
-  const goToLogin = () => {
-    router.push('/pages/login');
-  };
+  if (!name || !email || !password) {
+    Alert.alert('Error', 'Please fill all fields');
+    return;
+  }
+
+  try {
+    const res = await axios.post('/api/auth/signup', {
+      name,
+      email,
+      password,
+    });
+
+    console.log('Registered:', res.data);
+    router.push('/pages/dashboard');
+  } catch (err) {
+    console.log("Register error:", err?.response?.data || err.message);
+    Alert.alert('Error', err?.response?.data?.message || 'Something went wrong');
+  }
+};
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Animatable.View animation="fadeInUp" duration={700} style={styles.formContainer}>
         <Text style={styles.title}>Register</Text>
-
         <Animatable.View animation="fadeInRight" delay={200} style={styles.inputWrapper}>
           <TextInput
             placeholder="Full Name"
@@ -40,8 +51,8 @@ const Register = () => {
           <TextInput
             placeholder="Email or Phone"
             style={styles.input}
-            value={contact}
-            onChangeText={setContact}
+            value={email}
+            onChangeText={setEmail}
             placeholderTextColor="#aaa"
             keyboardType="email-address"
           />
@@ -57,22 +68,12 @@ const Register = () => {
             secureTextEntry
           />
         </Animatable.View>
-
-        <Pressable
-          onPress={handleRegister}
-          style={({ pressed }) => [
-            styles.button,
-            { backgroundColor: pressed ? '#2980b9' : '#3498db' },
-          ]}
-        >
+        <Pressable onPress={handleRegister} style={({ pressed }) => [styles.button, { backgroundColor: pressed ? '#2980b9' : '#3498db' }]}>
           <Text style={styles.buttonText}>Create Account</Text>
         </Pressable>
 
-        {/* Already Registered? Login Link */}
-        <TouchableOpacity onPress={goToLogin} style={styles.loginRedirect}>
-          <Text style={styles.loginText}>
-            Already have an account? <Text style={styles.loginLink}>Login</Text>
-          </Text>
+        <TouchableOpacity onPress={() => router.push('/pages/login')}>
+          <Text style={styles.loginText}>Already have an account? <Text style={styles.loginLink}>Login</Text></Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => router.back()} style={styles.goBack}>
@@ -82,6 +83,7 @@ const Register = () => {
     </KeyboardAvoidingView>
   );
 };
+
 
 export default Register;
 
@@ -153,4 +155,4 @@ const styles = StyleSheet.create({
       fontSize: 14,
     },
   });
-  
+    

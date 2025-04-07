@@ -3,14 +3,33 @@ import React, { useState } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { useRouter } from 'expo-router';
 
+import axios from '../../utils/axios';
+
 const Login = () => {
-  const [contact, setContact] = useState('');
+//   const [contact, setContact] = useState('');
+const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleLogin = () => {
-    console.log('Logging in with:', { contact, password });
-    // Add actual login logic here
+
+  
+//   const handleLogin = () => {
+//     console.log('Logging in with:', { contact, password });
+//     // Add actual login logic here
+//   };
+
+const handleLogin = async () => {
+    if (!email || !password) return alert('Enter credentials');
+  
+    try {
+      const res = await axios.post('/api/auth/login', { email, password });
+      console.log('Logged in:', res.data);
+  router.push('/pages/dashboard');
+      // Navigate to main screen
+    } catch (err) {
+      console.log('Login error', err.response?.data?.message);
+      alert(err.response?.data?.message || 'Login failed');
+    }
   };
 
   return (
@@ -25,8 +44,8 @@ const Login = () => {
           <TextInput
             placeholder="Email or Phone"
             style={styles.input}
-            value={contact}
-            onChangeText={setContact}
+            value={email}
+            onChangeText={setEmail}
             placeholderTextColor="#aaa"
             keyboardType="email-address"
           />
