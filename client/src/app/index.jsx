@@ -14,7 +14,7 @@ const Index = () => {
           style={styles.logo}
           resizeMode="contain"
         />
-        <Text style={styles.title}>Woman Safety App</Text>
+        <Text style={styles.title}>Women's Safety App</Text>
       </View>
 
       {/* Bottom Section with Button */}
