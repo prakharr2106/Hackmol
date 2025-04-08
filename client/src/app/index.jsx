@@ -7,20 +7,18 @@ const Index = () => {
 
   return (
     <View style={styles.container}>
-      {/* Top Section with Logo and Title */}
-      <View style={styles.topHalf}>
+      {/* Centered Logo and Title */}
+      <View style={styles.centeredSection}>
         <Image
-          source={require('../assets/images/logo.png')} // Update path if needed
+          source={require('../assets/images/logo.png')} 
           style={styles.logo}
           resizeMode="contain"
         />
-        <Text style={styles.title}>Women's Safety App</Text>
+        <Text style={styles.title}>HerShield</Text>
       </View>
 
-      {/* Bottom Section with Button */}
-      <View style={styles.bottomHalf}>
-        <Text style={styles.subtitle}>Empowering Safety Through Innovation</Text>
-
+      {/* Bottom Button */}
+      <View style={styles.bottomSection}>
         <TouchableOpacity style={styles.getStartedButton} onPress={() => router.push('/pages/register')}>
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
@@ -35,9 +33,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1e1e2f',
-    paddingTop: 40,
   },
-  topHalf: {
+  centeredSection: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -54,20 +51,12 @@ const styles = StyleSheet.create({
     color: '#e0e0e0',
     textAlign: 'center',
   },
-  bottomHalf: {
-    flex: 1,
-    backgroundColor: '#1e1e2f',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    padding: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#ccc',
-    textAlign: 'center',
-    marginBottom: 30,
+  bottomSection: {
+  position: 'absolute',
+  bottom: 50,
+  left: 0,
+  right: 0,
+  alignItems: 'center',
   },
   getStartedButton: {
     backgroundColor: '#8e44ad',

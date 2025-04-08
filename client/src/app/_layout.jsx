@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <Stack
       screenOptions={{
-        headerShown: false, // 👈 Hides the default title bar
+        headerShown: false, // Hides the default title bar
       }}
     />
   )
